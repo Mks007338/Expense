@@ -1,26 +1,30 @@
 workflows:
   react-native-android:
     name: React Native Android Build
-    max_build_duration: 120
-    instance_type: mac_mini_m1
+    max_build_duration: 60
     environment:
       flutter: stable
-      java: 17
       node: 16
-      vars:
-        PACKAGE_NAME: "com.yourcompany.expense"  # Apna actual package name likho
+      java: 17
+      android_signing:
+        - keystore_reference
     scripts:
-      - name: Grant execute permission to gradlew
-        script: chmod +x android/gradlew
-      - name: Clean npm cache
-        script: npm cache clean --force
       - name: Install Dependencies
         script: |
-          npm install
-          cd android && ./gradlew dependencies --stacktrace
+          npm cache clean --force
+          npm install --legacy-peer-deps
+      - name: Clean Gradle Cache
+        script: |
+          cd android
+          ./gradlew clean
       - name: Build Android APK
         script: |
-          ./android/gradlew clean
-          ./android/gradlew assembleRelease
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleRelease --stacktrace
     artifacts:
       - android/app/build/outputs/**/*.apk
+    publishing:
+      email:
+        recipients:
+          - your- yksahu675@gmail.com 

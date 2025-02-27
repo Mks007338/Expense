@@ -1,7 +1,20 @@
-scripts:
-  - name: Grant execute permission to gradlew
-    script: chmod +x android/gradlew
-  - name: Build Android APK
-    script: |
-      cd android
-      ./gradlew assembleRelease
+workflows:
+  react-native-android:
+    name: React Native Android Build
+    max_build_duration: 120
+    instance_type: mac_mini_m1
+    environment:
+      flutter: stable
+      vars:
+        PACKAGE_NAME: "com.yourcompany.expense"  # Apna actual package name likho
+    scripts:
+      - name: Grant execute permission to gradlew
+        script: chmod +x android/gradlew
+      - name: Install dependencies
+        script: npm install
+      - name: Build Android APK
+        script: |
+          cd android
+          ./gradlew assembleRelease
+    artifacts:
+      - android/app/build/outputs/**/*.apk

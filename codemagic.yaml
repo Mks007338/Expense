@@ -5,8 +5,9 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       flutter: stable
+      java: 17
       vars:
-        PACKAGE_NAME: "com.yourcompany.expense"  # Apna actual package name likho
+        PACKAGE_NAME: "com.expense"  # Apna actual package name likho
     scripts:
       - name: Grant execute permission to gradlew
         script: chmod +x android/gradlew
@@ -15,6 +16,7 @@ workflows:
       - name: Build Android APK
         script: |
           cd android
+          ./gradlew clean
           ./gradlew assembleRelease
     artifacts:
       - android/app/build/outputs/**/*.apk

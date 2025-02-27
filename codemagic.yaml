@@ -12,6 +12,8 @@ workflows:
     scripts:
       - name: Grant execute permission to gradlew
         script: chmod +x android/gradlew
+      - name: Clean npm cache
+        script: npm cache clean --force
       - name: Install Dependencies
         script: |
           npm install
